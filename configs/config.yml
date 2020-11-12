@@ -6,8 +6,5 @@ files:
     le: output/le.pickle
 
 others:
-    preprocessing_queue:
-        - preprocessing.scale_and_center
-        - preprocessing.dot_reduction
-        - preprocessing.connect_lines
+    confidence: 0.5
     use_anonymous: yes
