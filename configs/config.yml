@@ -4,6 +4,9 @@ files:
     reco_model_path: models/res10_300x300_ssd_iter_140000.caffemodel
     proto_path: models/deploy.prototxt
     le: output/le.pickle
+    shape_predictor: models/shape_predictor_68_face_landmarks.dat
+    dataset: dataset/
+    output_directory: output/
 
 others:
     confidence: 0.5

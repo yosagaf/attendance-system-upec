@@ -1,5 +1,6 @@
 # USAGE
-# python3 extract_embeddings.py --dataset dataset --embeddings output/embeddings.pickle --detector models --embedding-model models/nn4.small2.v1.t
+#python3 extract_embeddings.py --dataset dataset --embeddings output/embeddings.pickle --detector models --embedding-model models/nn4.small2.v1.t7
+
 
 from imutils import paths
 import numpy as np
