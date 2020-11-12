@@ -1,0 +1,13 @@
+files:
+    recognizer: output/recognizer.pickle
+    embedding_model: models/nn4.small2.v1.t7
+    reco_model_path: models/res10_300x300_ssd_iter_140000.caffemodel
+    proto_path: models/deploy.prototxt
+    le: output/le.pickle
+
+others:
+    preprocessing_queue:
+        - preprocessing.scale_and_center
+        - preprocessing.dot_reduction
+        - preprocessing.connect_lines
+    use_anonymous: yes
