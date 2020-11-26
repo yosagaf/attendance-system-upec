@@ -20,7 +20,7 @@ sagaf_img = face_recognition.load_image_file("images/Sagaf.jpg")
 sagaf_encodings = face_recognition.face_encodings(sagaf_img)[0]
 
 # Load a second sample picture and learn how to recognize it.
-sakina_img = face_recognition.load_image_file("images/Sakina.jpg")
+sakina_img = face_recognition.load_image_file("images/Ellon.jpg")
 sakina_encodings = face_recognition.face_encodings(sagaf_img)[0]
     
 # Create arrays of known face encodings and their names
@@ -31,7 +31,7 @@ known_face_encodings = [
     
 known_face_names = [
     "Sagaf",
-    "Sakina"
+    "Ellon"
 ]
 
 # Initialize some variables
@@ -48,10 +48,12 @@ while True:
     ret, frame = cap.read()
     if ret == True:
         Time = datetime.datetime.now().time()
+        
         # Converting the image to gray scale
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # Get faces into webcam's image
         rects = detector(gray, 0)
+        
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)

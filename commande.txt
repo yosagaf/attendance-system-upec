@@ -2,3 +2,4 @@ cd /usr/lib/x86_64-linux-gnu/qt5/bin/
 pyuic5 -x gui.ui -o main.py
 
 # Without face alignment : FPS = 29.67
+
