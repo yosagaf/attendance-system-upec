@@ -2,6 +2,7 @@ from Ui_saftey_SR import Ui_MainWindow
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QImage
 import cv2
+from face_reco import predict, show_prediction_labels_on_image
 
 class VideoThread(QThread, Ui_MainWindow):
     CameraFram = pyqtSignal(QImage)
@@ -13,16 +14,17 @@ class VideoThread(QThread, Ui_MainWindow):
     def run(self):
         
         self.Run_Camera = 1
+        self.Run_Reco = 0
         #self.video_path = 'video.mp4'
         self.cap = cv2.VideoCapture(0)  # read video
         fps = self.cap.get(cv2.CAP_PROP_FPS) # get the number of frames
-        print(fps)
+        #print(fps)
 
         #Get the size of each frame of the cap video stream  
         size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),  
                 int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
         
-        print(size)    
+        #print(size)    
         h = size[1]
         w = size[0]        
         
@@ -35,7 +37,7 @@ class VideoThread(QThread, Ui_MainWindow):
                 ret,  self.img_read = self.cap.read()
                 if self.img_read.all:
                     h, w = self.img_read.shape[:2]
-                    print(h, w)
+                    #print(h, w)
                 cv2.waitKey(1) #延时1s
                 if ret !=None :
                     
@@ -43,6 +45,11 @@ class VideoThread(QThread, Ui_MainWindow):
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)
                     
                     
+                    #if self.Run_Reco == 1:
+                    #    predictions = predict(input_img, model_path="models/trained_knn_model.clf")
+                    #    input_img = show_prediction_labels_on_image(input_img, predictions)
+                    #    show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)
+
                     if self.Run_Camera:
                         self.CameraFram.emit(show_pic)
                     else:
@@ -58,6 +65,7 @@ class VideoThread(QThread, Ui_MainWindow):
     
     def Stop_Video(self):
         self.Run_Camera = 0
+        self.Run_Reco = 0
         
             
         
