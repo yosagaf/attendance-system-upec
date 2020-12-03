@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui2.ui'
+# Form implementation generated from reading ui file 'gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.12
 #
@@ -16,14 +16,8 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(-40, -100, 1351, 891))
+        self.groupBox.setGeometry(QtCore.QRect(60, -60, 1351, 891))
         self.groupBox.setObjectName("groupBox")
-        self.startPushButton = QtWidgets.QPushButton(self.groupBox)
-        self.startPushButton.setGeometry(QtCore.QRect(180, 250, 111, 31))
-        self.startPushButton.setObjectName("startPushButton")
-        self.stopPushButton = QtWidgets.QPushButton(self.groupBox)
-        self.stopPushButton.setGeometry(QtCore.QRect(180, 290, 111, 31))
-        self.stopPushButton.setObjectName("stopPushButton")
         self.displayResultGoupBox = QtWidgets.QGroupBox(self.groupBox)
         self.displayResultGoupBox.setGeometry(QtCore.QRect(50, 320, 421, 561))
         self.displayResultGoupBox.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -46,6 +40,20 @@ class Ui_MainWindow(object):
         self.displayFrameLabel.setGeometry(QtCore.QRect(10, 20, 841, 641))
         self.displayFrameLabel.setText("")
         self.displayFrameLabel.setObjectName("displayFrameLabel")
+        self.startBtn = QtWidgets.QPushButton(self.groupBox)
+        self.startBtn.setGeometry(QtCore.QRect(210, 190, 121, 41))
+        font = QtGui.QFont()
+        font.setFamily("Adobe Jenson Pro Lt Disp")
+        font.setPointSize(12)
+        self.startBtn.setFont(font)
+        self.startBtn.setObjectName("startBtn")
+        self.quitBtn = QtWidgets.QPushButton(self.groupBox)
+        self.quitBtn.setGeometry(QtCore.QRect(210, 240, 121, 41))
+        font = QtGui.QFont()
+        font.setFamily("Adobe Jenson Pro Lt Disp")
+        font.setPointSize(12)
+        self.quitBtn.setFont(font)
+        self.quitBtn.setObjectName("quitBtn")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1319, 22))
@@ -62,10 +70,10 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.groupBox.setTitle(_translate("MainWindow", "GroupBox"))
-        self.startPushButton.setText(_translate("MainWindow", "START"))
-        self.stopPushButton.setText(_translate("MainWindow", "STOP"))
         self.displayResultGoupBox.setTitle(_translate("MainWindow", "RESULTS"))
         self.textLabel.setText(_translate("MainWindow", "ATTENDANCE MANAGEMENT SYSTEM"))
+        self.startBtn.setText(_translate("MainWindow", "START"))
+        self.quitBtn.setText(_translate("MainWindow", "STOP"))
 
 
 
