@@ -195,7 +195,7 @@ if __name__ == "__main__":
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up...')
-    
+    OpenVideo
     cap = cv2.VideoCapture(0)
     while 1 > 0:
         ret, frame = cap.read()
@@ -204,7 +204,7 @@ if __name__ == "__main__":
             # Image resizing for more stable streaming
             img = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
             process_this_frame = process_this_frame + 1
-            if process_this_frame % 30 == 0:
+            if 30 % process_this_frame == 0:
                 predictions = predict(img, model_path="models/trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)

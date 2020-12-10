@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import *
 from Ui_saftey_SR import Ui_MainWindow
 
 from Read_video import VideoThread
+from Read_videoST import VideoThreadST
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
@@ -29,44 +30,55 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
     
         self.Video = VideoThread()
+        self.VideoST = VideoThreadST()
+        
         
         if not self.Video.isRunning():
             self.Video.start()
             self.Video.CameraFram.connect(self.Fresh_Camera)
             self.Video.OpenVideoFlage.connect(self.Un_Open)
-    
+        else:
+            self.cap.release()
+        
     def OpenVideo(self):
         
-        if self.Video.isRunning():
+        if not self.Video.isRunning():
             self.Video.start()
-            self.Run_Camera = 1
-            print("Reco d'actions")
-            #self.Bic_pushButton.setText('Close video')
+            #self.start_pushbutton.setText('STOP')
+        else:
+            self.Video.Stop_Video()
+            #self.start_pushbutton.setText('START')
+            #self.display_video_label.setPixmap(QPixmap.fromImage())  #Définir la restauration d'image
+
+
+    def OpenVideoST(self):
         
-        #else:
-            #self.Video.Stop_Video()
-            #self.Bic_pushButton.setText('Open Video')
-            #self.Camer_label.setPixmap(QPixmap.fromImage())  #Définir la restauration d'image
-    
+        if not self.VideoST.isRunning():
+            self.VideoST.start()
+        else:
+           self.VideoST.Stop_Video()
+
     def Fresh_Camera(self, show_pic):
-        self.Bic_label.setScaledContents(True) # Picture adaptive size
-        self.Bic_label.setPixmap(QPixmap.fromImage(show_pic))
+        self.display_video_label.setScaledContents(True) # Picture adaptive size
+        self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
     
     def Un_Open(self):
-        QtWidgets.QMessageBox.warning(self, '警告',  'Failed to open video')
+        QtWidgets.QMessageBox.warning(self, 'Warning', 'Failed to open video')
         
     
     @pyqtSlot()
-    def on_Bic_pushButton_clicked(self):
-        self.OpenVideo()
-        self.Video.CameraFram.connect(self.Fresh_Camera)
-        self.Video.OpenVideoFlage.connect(self.Un_Open)
+    def on_start_pushbutton_clicked(self):
+        self.Video.Stop_Video()
+        self.OpenVideoST()
+        self.VideoST.CameraFram.connect(self.Fresh_Camera)
+        #self.VideoST.OpenVideoFlage.connect(self.Un_Open)
     
     
     @pyqtSlot()
-    def on_SR_pushButton_clicked(self):
+    def on_quit_pushbutton_clicked(self):
         self.close()
-        
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
