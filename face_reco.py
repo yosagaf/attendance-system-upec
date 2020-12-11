@@ -163,10 +163,11 @@ def show_prediction_labels_on_image(frame, predictions):
 
     for name, (top, right, bottom, left) in predictions:
         # enlarge the predictions for the full sized image.
-        top *= 2
-        right *= 2
-        bottom *= 2
-        left *= 2
+        #top *= 2
+        #right *= 2
+        #bottom *= 2
+        #left *= 2
+        
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -188,15 +189,18 @@ def show_prediction_labels_on_image(frame, predictions):
 
 
 if __name__ == "__main__":
+    
     #print("Training KNN classifier...")
-    #classifier = train("dataset/train_dir", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
+    #classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=2)
     #print("Training complete!")
     
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up...')
-    OpenVideo
+    
+    # multiple cameras can be used with the format url = 'http://username:password@camera_ip:port'
     cap = cv2.VideoCapture(0)
+    
     while 1 > 0:
         ret, frame = cap.read()
         if ret:
@@ -204,10 +208,12 @@ if __name__ == "__main__":
             # Image resizing for more stable streaming
             img = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
             process_this_frame = process_this_frame + 1
-            if 30 % process_this_frame == 0:
+            
+            if process_this_frame % 30 == 0:
                 predictions = predict(img, model_path="models/trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)
+            
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()

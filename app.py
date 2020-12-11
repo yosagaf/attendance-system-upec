@@ -32,14 +32,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Video = VideoThread()
         self.VideoST = VideoThreadST()
         
-        
+        '''
         if not self.Video.isRunning():
             self.Video.start()
             self.Video.CameraFram.connect(self.Fresh_Camera)
             self.Video.OpenVideoFlage.connect(self.Un_Open)
         else:
             self.cap.release()
-        
+        '''
+
     def OpenVideo(self):
         
         if not self.Video.isRunning():
@@ -64,11 +65,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def Un_Open(self):
         QtWidgets.QMessageBox.warning(self, 'Warning', 'Failed to open video')
-        
-    
+            
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
-        self.Video.Stop_Video()
+        #self.Video.Stop_Video()
         self.OpenVideoST()
         self.VideoST.CameraFram.connect(self.Fresh_Camera)
         #self.VideoST.OpenVideoFlage.connect(self.Un_Open)
@@ -82,7 +82,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    #MainWindow = QtWidgets.QMainWindow()
     ui = MainWindow()
     ui.show()
     sys.exit(app.exec_())
