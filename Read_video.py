@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QImage
 import cv2
 import time
-from face_reco import predict, show_prediction_labels_on_image
+from face_reco import predict, show_prediction_labels_on_image, markAttendance
 
 class VideoThread(QThread, Ui_MainWindow):
     
@@ -41,6 +41,10 @@ class VideoThread(QThread, Ui_MainWindow):
                                         
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
                     #input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
+
+                    
+
+
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
                     
                     if self.Run_Camera:

@@ -43,6 +43,8 @@ from PIL import Image, ImageDraw
 import face_recognition
 from face_recognition.face_recognition_cli import image_files_in_folder
 import numpy as np
+import csv
+from datetime import datetime
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
@@ -188,6 +190,35 @@ def show_prediction_labels_on_image(frame, predictions):
     return opencvimage
 
 
+def markAttendance(predictions):
+    #for name, (top, right, bottom, left) in predictions:
+    #    name = name.encode("UTF-8")
+    name = predictions[0][0]
+    print("Name = ", name)
+
+    with open("attendance.csv",'r+') as f:
+        myDataList = f.readline()
+        nameList = []
+        for line in myDataList:
+            entry = line.split(',')
+            nameList.append(entry[0])
+        if name not in nameList:
+            now = datetime.now()
+            dateString = now.strftime('%H:%M:%S')
+            f.writelines(f'\n{name},{dateString}')    
+
+def display_information():
+    with open('attendance.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        data_to_label = []
+        for row in spamreader:
+            #print(', '.join(row))
+            data_to_label.append(', '.join(row))
+        
+    return data_to_label[-1]
+
+
+        
 if __name__ == "__main__":
     
     #print("Training KNN classifier...")
@@ -197,8 +228,7 @@ if __name__ == "__main__":
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up...')
-    
-    # multiple cameras can be used with the format url = 'http://username:password@camera_ip:port'
+    display_information()
     cap = cv2.VideoCapture(0)
     
     while 1 > 0:

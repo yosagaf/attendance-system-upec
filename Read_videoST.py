@@ -4,11 +4,12 @@ from PyQt5.QtGui import QImage
 import cv2
 import os
 from datetime import datetime
-from face_reco import predict, show_prediction_labels_on_image
+from face_reco import predict, show_prediction_labels_on_image, markAttendance
 
 class VideoThreadST(QThread, Ui_MainWindow):
+    
     CameraFram = pyqtSignal(QImage)
-    OpenVideoFlage = pyqtSignal(bool)
+    OpenVideoFlag = pyqtSignal(bool)
     
     def __init__(self):
         super().__init__()
@@ -16,12 +17,12 @@ class VideoThreadST(QThread, Ui_MainWindow):
     def run(self):
         
         self.Run_Camera = 1
-        self.video_path = 'videos/test.mp4'
-        self.cap = cv2.VideoCapture(self.video_path)  # read video
+        #self.video_path = 'videos/test.mp4'
+        self.cap = cv2.VideoCapture(0)  # read video
         fps = self.cap.get(cv2.CAP_PROP_FPS) # get the number of frames
         print("FPS = ", fps)
 
-        #Get the size of each frame of the cap video stream  
+        #get the size of each frame of the cap video stream  
         size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),  
                 int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
 
@@ -29,8 +30,7 @@ class VideoThreadST(QThread, Ui_MainWindow):
         w = size[0]        
         
         COUNT = 0
-        totalFrameNumber = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)   
-        #print(size)
+        totalFrameNumber = self.cap.get(cv2.CAP_PROP_FRAME_COUNT) 
         
         if (self.cap.isOpened()):
             while self.Run_Camera:                # while using the webcam
@@ -40,8 +40,7 @@ class VideoThreadST(QThread, Ui_MainWindow):
                     h, w = self.img_read.shape[:2]
                     print(h, w)
                                 
-                cv2.waitKey(1) #延时1s
-                
+                cv2.waitKey(1)                 
                 if ret !=None :
                     
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
@@ -49,7 +48,9 @@ class VideoThreadST(QThread, Ui_MainWindow):
                     predictions = predict(input_img, model_path="models/trained_knn_model.clf")
                     input_img = show_prediction_labels_on_image(input_img, predictions)
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
-                            
+                    
+                    #markAttendance(predictions)
+
                     if self.Run_Camera:
                         self.CameraFram.emit(show_pic)
                     else:
@@ -61,31 +62,8 @@ class VideoThreadST(QThread, Ui_MainWindow):
             self.cap.release()
             self.quit()
         else:
-            self.OpenVideoFlage.emit(self.cap.isOpened()) 
+            self.OpenVideoFlag.emit(self.cap.isOpened()) 
 
     def Stop_Video(self):
         self.Run_Camera = 0
         self.terminate()
-        
-    
-    def markAttendance(self, predictions):
-
-        # tester si la personne est dejà enregistré
-
-        path = "dataset/train_dir"
-        my_list = os.listdir(path)
-        print(my_list)
-        images = []
-        classnames = []
-
-
-        with open("attendance.csv",'r+') as f:
-            myDataList = f.readline()
-            nameList = []
-            for line in myDataList:
-                entry = line.split(',')
-                nameList.append(entry[0])
-            if name not in nameList:
-                now = datetime.now()
-                dateString = now.strftime('%H:%M:%S')
-                f.writelines(f'\n{name},{dateString}')

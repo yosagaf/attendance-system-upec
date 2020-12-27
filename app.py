@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Module implementing MainWindow.
-"""
-
 from PyQt5 import  QtGui,  QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow
@@ -14,6 +10,7 @@ from Ui_saftey_SR import Ui_MainWindow
 
 from Read_video import VideoThread
 from Read_videoST import VideoThreadST
+from face_reco import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
@@ -32,14 +29,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Video = VideoThread()
         self.VideoST = VideoThreadST()
         
-        '''
-        if not self.Video.isRunning():
-            self.Video.start()
-            self.Video.CameraFram.connect(self.Fresh_Camera)
-            self.Video.OpenVideoFlage.connect(self.Un_Open)
-        else:
-            self.cap.release()
-        '''
+        
+        #if not self.Video.isRunning():
+        #self.Video.start()
+        #self.Video.CameraFram.connect(self.Fresh_Camera)
+        #self.Video.OpenVideoFlage.connect(self.Un_Open)
+        #else:
+        #    self.cap.release()
+        
 
     def OpenVideo(self):
         
@@ -65,15 +62,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def Un_Open(self):
         QtWidgets.QMessageBox.warning(self, 'Warning', 'Failed to open video')
-            
+
+    # les deux slos suivants reçoivent un signal et exécute une routine.    
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
         #self.Video.Stop_Video()
         self.OpenVideoST()
         self.VideoST.CameraFram.connect(self.Fresh_Camera)
-        #self.VideoST.OpenVideoFlage.connect(self.Un_Open)
-    
-    
+        self.VideoST.OpenVideoFlag.connect(self.Un_Open)
+        #self.display_statistics_label.setText(display_information())
+        
     @pyqtSlot()
     def on_quit_pushbutton_clicked(self):
         self.close()
