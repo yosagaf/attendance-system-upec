@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5 import  QtGui,  QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow
@@ -9,13 +7,11 @@ from PyQt5.QtWidgets import *
 from Ui_saftey_SR import Ui_MainWindow
 
 from Read_video import VideoThread
-from Read_videoST import VideoThreadST
 from face_reco import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    """
-    Class documentation goes here.
-    """
+    
+    
     def __init__(self, parent=None):
         """
         Constructor
@@ -27,19 +23,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
     
         self.Video = VideoThread()
-        self.VideoST = VideoThreadST()
-        
-        
-        #if not self.Video.isRunning():
-        #self.Video.start()
-        #self.Video.CameraFram.connect(self.Fresh_Camera)
-        #self.Video.OpenVideoFlage.connect(self.Un_Open)
-        #else:
-        #    self.cap.release()
-        
-
-    def OpenVideo(self):
-        
+                
+        #if not self.Video.i(!:,hyuyikkigoh )
+        '''
         if not self.Video.isRunning():
             self.Video.start()
             #self.start_pushbutton.setText('STOP')
@@ -47,14 +33,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Video.Stop_Video()
             #self.start_pushbutton.setText('START')
             #self.display_video_label.setPixmap(QPixmap.fromImage())  #Définir la restauration d'image
-
-
-    def OpenVideoST(self):
+        '''
+    def OpenVideo(self):
         
-        if not self.VideoST.isRunning():
-            self.VideoST.start()
+        if not self.Video.isRunning():
+            self.Video.start()
         else:
-           self.VideoST.Stop_Video()
+           self.Video.Stop_Video()
 
     def Fresh_Camera(self, show_pic):
         self.display_video_label.setScaledContents(True) # Picture adaptive size
@@ -67,15 +52,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
         #self.Video.Stop_Video()
-        self.OpenVideoST()
-        self.VideoST.CameraFram.connect(self.Fresh_Camera)
-        self.VideoST.OpenVideoFlag.connect(self.Un_Open)
+        self.OpenVideo()
+
+        # Binds signal of CameraFram to the slot self.Fresh_Camera
+        self.Video.CameraFram.connect(self.Fresh_Camera)
+        self.Video.OpenVideoFlag.connect(self.Un_Open)
         #self.display_statistics_label.setText(display_information())
-        
-    @pyqtSlot()
+    
+    @pyqtSlot() # decorate a Python method to create a Qt slot.
     def on_quit_pushbutton_clicked(self):
         self.close()
-
 
 if __name__ == "__main__":
     import sys
