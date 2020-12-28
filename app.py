@@ -10,8 +10,7 @@ from Read_video import VideoThread
 from face_reco import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    
-    
+        
     def __init__(self, parent=None):
         """
         Constructor
@@ -23,40 +22,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
     
         self.Video = VideoThread()
-                
-        #if not self.Video.i(!:,hyuyikkigoh )
-        '''
+        
         if not self.Video.isRunning():
             self.Video.start()
-            #self.start_pushbutton.setText('STOP')
+            # connect the "camera_frame" signal to a slot 
+            self.Video.camera_frame.connect(self.fresh_camera)
         else:
-            self.Video.Stop_Video()
-            #self.start_pushbutton.setText('START')
-            #self.display_video_label.setPixmap(QPixmap.fromImage())  #Définir la restauration d'image
-        '''
-    def OpenVideo(self):
+            self.cap.release()
+
+    def open_video(self):
         
         if not self.Video.isRunning():
             self.Video.start()
         else:
-           self.Video.Stop_Video()
+           self.Video.stop_video()
 
-    def Fresh_Camera(self, show_pic):
-        self.display_video_label.setScaledContents(True) # Picture adaptive size
+    def fresh_camera(self, show_pic):
+        
+        # Scale the contents of the label to fill all available space
+        self.display_video_label.setScaledContents(True)
+
+        # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
     
-    def Un_Open(self):
+    def un_open(self):
         QtWidgets.QMessageBox.warning(self, 'Warning', 'Failed to open video')
 
-    # les deux slos suivants reçoivent un signal et exécute une routine.    
+    # Following slots receive signal and execute routine.    
+    
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
-        #self.Video.Stop_Video()
-        self.OpenVideo()
+        #self.Video.stop_video()
+        #self.open_video()
+        print("Done")
 
-        # Binds signal of CameraFram to the slot self.Fresh_Camera
-        self.Video.CameraFram.connect(self.Fresh_Camera)
-        self.Video.OpenVideoFlag.connect(self.Un_Open)
+        # Binds signal of camera_frame to the slot self.fresh_camera
+        #self.Video.camera_frame.connect(self.fresh_camera)
+        self.Video.open_video_flag.connect(self.un_open)
         #self.display_statistics_label.setText(display_information())
     
     @pyqtSlot() # decorate a Python method to create a Qt slot.
