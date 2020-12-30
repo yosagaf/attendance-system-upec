@@ -7,10 +7,11 @@ from datetime import datetime
 from face_reco import predict, show_prediction_labels_on_image, markAttendance
 
 class VideoThread(QThread, Ui_MainWindow):
-    
+   
     # define new signals with pyqtSignal 
     camera_frame = pyqtSignal(QImage)
     open_video_flag = pyqtSignal(bool)
+    face_reco_flag = False
     
     def __init__(self):
         super().__init__()
@@ -48,13 +49,15 @@ class VideoThread(QThread, Ui_MainWindow):
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
                     
                     predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
-                    input_img = show_prediction_labels_on_image(input_img, predictions)
+                    if self.face_reco_flag:
+                        input_img = show_prediction_labels_on_image(input_img, predictions)
                     
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
                     
-                    #markAttendance(predictions)
+                    #mark_attendance(predictions)
 
-                    if self.run_camera:
+                    if self.run_camera: # send every time the frame to show
+                        # emit the signal
                         self.camera_frame.emit(show_pic)
                     else:
                         break
@@ -65,8 +68,9 @@ class VideoThread(QThread, Ui_MainWindow):
             self.cap.release()
             self.quit()
         else:
+            # if the camera is not open, the signal is emitted
             self.open_video_flag.emit(self.cap.isOpened()) 
 
     def stop_video(self):
-        self.run_camera = 0
+        self.run_camera = False
         self.terminate()

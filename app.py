@@ -10,7 +10,9 @@ from Read_video import VideoThread
 from face_reco import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-        
+    
+    # This class will have access to all of the properties of QThread and Ui_MainWindow
+    
     def __init__(self, parent=None):
         """
         Constructor
@@ -22,45 +24,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
     
         self.Video = VideoThread()
-        
-        if not self.Video.isRunning():
-            self.Video.start()
-            # connect the "camera_frame" signal to a slot 
-            self.Video.camera_frame.connect(self.fresh_camera)
-        else:
-            self.cap.release()
-
+        self.open_video()
+       
     def open_video(self):
         
         if not self.Video.isRunning():
             self.Video.start()
+            self.Video.camera_frame.connect(self.fresh_camera)
         else:
            self.Video.stop_video()
+           self.cap.release()
 
-    def fresh_camera(self, show_pic):
-        
+    def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
         self.display_video_label.setScaledContents(True)
 
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
     
-    def un_open(self):
-        QtWidgets.QMessageBox.warning(self, 'Warning', 'Failed to open video')
-
     # Following slots receive signal and execute routine.    
-    
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
-        #self.Video.stop_video()
-        #self.open_video()
-        print("Done")
-
-        # Binds signal of camera_frame to the slot self.fresh_camera
-        #self.Video.camera_frame.connect(self.fresh_camera)
-        self.Video.open_video_flag.connect(self.un_open)
-        #self.display_statistics_label.setText(display_information())
+        # When the start button is pressed, face recognition start (bounding box)
+        self.Video.face_reco_flag = True
     
+    # Following slots receive signal and execute routine.    
+    @pyqtSlot()
+    def on_stop_pushbutton_clicked(self):
+        # When the stop button is pressed, face recognition stop (bounding box)
+        self.Video.face_reco_flag = False
+
     @pyqtSlot() # decorate a Python method to create a Qt slot.
     def on_quit_pushbutton_clicked(self):
         self.close()
