@@ -1,2 +1,2 @@
 # !/usr/bin/env bash
-python3 recognize_video.py
+python3 app.py

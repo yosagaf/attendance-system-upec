@@ -163,13 +163,7 @@ def show_prediction_labels_on_image(frame, predictions):
     pil_image = Image.fromarray(frame)
     draw = ImageDraw.Draw(pil_image)
 
-    for name, (top, right, bottom, left) in predictions:
-        # enlarge the predictions for the full sized image.
-        #top *= 2
-        #right *= 2
-        #bottom *= 2
-        #left *= 2
-        
+    for name, (top, right, bottom, left) in predictions:       
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -190,7 +184,7 @@ def show_prediction_labels_on_image(frame, predictions):
     return opencvimage
 
 
-def markAttendance(predictions):
+def mark_attendance(predictions):
     #for name, (top, right, bottom, left) in predictions:
     #    name = name.encode("UTF-8")
     name = predictions[0][0]
@@ -217,8 +211,6 @@ def display_information():
         
     return data_to_label[-1]
 
-
-        
 if __name__ == "__main__":
     
     #print("Training KNN classifier...")

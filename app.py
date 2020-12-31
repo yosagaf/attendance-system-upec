@@ -7,19 +7,12 @@ from PyQt5.QtWidgets import *
 from Ui_saftey_SR import Ui_MainWindow
 
 from Read_video import VideoThread
-from face_reco import display_information
+from knn_classifier import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    
     # This class will have access to all of the properties of QThread and Ui_MainWindow
     
     def __init__(self, parent=None):
-        """
-        Constructor
-        
-        @param parent reference to the parent widget
-        @type QWidget
-        """
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
     
