@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from Ui_saftey_SR import Ui_MainWindow
+from gui import Ui_MainWindow
 
-from Read_video import VideoThread
+from read_video import VideoThread
 from knn_classifier import display_information
 
 class MainWindow(QMainWindow, Ui_MainWindow):

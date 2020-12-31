@@ -1,4 +1,4 @@
-from Ui_saftey_SR import Ui_MainWindow
+from gui import Ui_MainWindow
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QImage
 import cv2
