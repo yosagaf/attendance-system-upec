@@ -19,14 +19,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
         self.Video = VideoThread()
         self.open_video()
-        #self.display_date_time()
-
-        timer = QTimer(self, interval=1000, timeout=self.show_time)
+        
+        # Using QTimer to update the time in the GUI
+        timer = QTimer(self, interval=1000, timeout=self.show_date_time)
         timer.start()
-        self.show_time()
+        self.show_date_time()
        
     def open_video(self):
-        
         if not self.Video.isRunning():
             self.Video.start()
             self.Video.camera_frame.connect(self.fresh_camera)
@@ -57,16 +56,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_quit_pushbutton_clicked(self):
         self.close()
 
+    # set an display the time in the corresponding label
     @pyqtSlot()
-    def show_time(self): 
+    def show_date_time(self): 
         time = QTime.currentTime()
-        text = time.toString("HH:mm" if time.second() % 2 == 0 else "HH:mm")
-        self.time_label.setText(text)
+        time_text = time.toString("HH:mm" if time.second() % 2 == 0 else "HH:mm")
+        self.time_label.setText(time_text)
         
-        #self.time_date_label.setText('%s/%s/%s' % (date_time.month, date_time.day, date_time.year))
-        #self.time_date_label.setText(_translate("Form",now.strftime("%Y-%m-%d %H:%M"), None))
-        #self.text_browser_time.setText('%s:%s:%s' % (date_time.hour, date_time.minute, date_time.second))
-
+        date = QDate.currentDate()
+        date_text = date.toString("MM/dd/yyyy")
+        self.date_label.setText(date_text)
+        
+        
 if __name__ == "__main__":
     
     import sys
