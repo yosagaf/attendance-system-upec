@@ -24,7 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         timer = QTimer(self, interval=1000, timeout=self.show_date_time)
         timer.start()
         self.show_date_time()
-       
+    
     def open_video(self):
         if not self.Video.isRunning():
             self.Video.start()
@@ -52,11 +52,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # When the stop button is pressed, face recognition stop (bounding box)
         self.Video.face_reco_flag = False
 
-    @pyqtSlot() # decorate a Python method to create a Qt slot.
+    @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_quit_pushbutton_clicked(self):
         self.close()
 
-    # set an display the time in the corresponding label
+    # Set an display the time in the corresponding label
     @pyqtSlot()
     def show_date_time(self): 
         time = QTime.currentTime()
@@ -80,5 +80,5 @@ if __name__ == "__main__":
     try:
         sys.exit(app.exec_())
     except:
-        print("Exiting")
+        print("Exiting the application")
     

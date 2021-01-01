@@ -45,6 +45,7 @@ from face_recognition.face_recognition_cli import image_files_in_folder
 import numpy as np
 import csv
 from datetime import datetime
+import time
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
@@ -188,11 +189,18 @@ def mark_attendance(predictions):
     #for name, (top, right, bottom, left) in predictions:
     #    name = name.encode("UTF-8")
     name = predictions[0][0]
-    print("Name = ", name)
 
     with open("attendance.csv",'r+') as f:
         myDataList = f.readline()
         nameList = []
+        ID = 3425
+        # generate date based file name
+        ts = time.time()
+        date = datetime.fromtimestamp(ts).strftime('%d-%m-%Y')
+        time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+
+        attendance = [str(ID), "Sagaf", str(time_stamp)]
+        
         for line in myDataList:
             entry = line.split(',')
             nameList.append(entry[0])
@@ -209,7 +217,7 @@ def display_information():
             #print(', '.join(row))
             data_to_label.append(', '.join(row))
         
-    return data_to_label[-1]
+    #return data_to_label[-1]
 
 if __name__ == "__main__":
     
@@ -235,6 +243,8 @@ if __name__ == "__main__":
                 predictions = predict(img, model_path="models/trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)
+
+            mark_attendance(predictions)
             
             if ord('q') == cv2.waitKey(10):
                 cap.release()

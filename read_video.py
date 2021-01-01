@@ -13,6 +13,8 @@ class VideoThread(QThread, Ui_MainWindow):
     open_video_flag = pyqtSignal(bool)
     face_reco_flag = False
     
+    students_name = []
+    
     def __init__(self):
         super().__init__()
 
@@ -21,6 +23,7 @@ class VideoThread(QThread, Ui_MainWindow):
         self.run_camera = True
         
         #self.video_path = 'videos/test.mp4'
+        #self.cap = cv2.VideoCapture(self.video_path)
         self.cap = cv2.VideoCapture(0)  # read video from the webcam
         fps = self.cap.get(cv2.CAP_PROP_FPS) # get the number of frames
 
@@ -48,13 +51,11 @@ class VideoThread(QThread, Ui_MainWindow):
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
                     
-                    predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
                     if self.face_reco_flag:
+                        predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
                         input_img = show_prediction_labels_on_image(input_img, predictions)
-                    
+                        
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
-                    
-                    #mark_attendance(predictions)
 
                     if self.run_camera: # send every time the frame to show
                         # emit the signal
