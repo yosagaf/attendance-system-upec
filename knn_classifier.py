@@ -41,12 +41,11 @@ import os.path
 import pickle
 from PIL import Image, ImageDraw
 import face_recognition
-from face_recognition.face_recognition_cli import image_files_in_folder
 import numpy as np
 import csv
 from datetime import datetime
 import time
-
+from face_recognition.face_recognition_cli import image_files_in_folder
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
 

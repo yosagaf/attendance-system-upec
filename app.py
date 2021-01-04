@@ -9,6 +9,7 @@ import datetime
 
 from read_video import VideoThread
 from knn_classifier import display_information
+from attendance import write_attendance
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     # This class will have access to all of the properties of QThread and Ui_MainWindow
@@ -45,6 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_start_pushbutton_clicked(self):
         # When the start button is pressed, face recognition start (bounding box)
         self.Video.face_reco_flag = True
+        self.display_information()
     
     # Following slots receive signal and execute routine.    
     @pyqtSlot()
@@ -66,7 +68,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         date = QDate.currentDate()
         date_text = date.toString("MM/dd/yyyy")
         self.date_label.setText(date_text)
-        
+    
+    def display_information(self):
+        info = write_attendance()
+        self.display_statistics_label.setText(str(info[1][0])+"  " + str(info[1][1])+"  "+ str(info[1][2]))
         
 if __name__ == "__main__":
     
