@@ -27,27 +27,25 @@ def generate_date_time():
 
 # Save recoreded informations on the csv file
 def write_attendance():
-    
     student_name = "Sagaf"
     student_id = str(generate_unique_id(433000, 433050))
     record_time = generate_date_time()[1]
-    attendance = [student_id, student_name, record_time]
+    attendance = [student_name, student_id, record_time]
+    col_names = ['identifiants', 'student_names', 'entry_time']
+
+    # Check if the csv file exist
+    exists = os.path.isfile("attendance.csv")
+
+    if exists:
+        with open("attendance.csv", 'a+') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerow(attendance)
+        f.close()
+    else:
+        with open("attendance.csv", 'a+') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerow(col_names)
+            csv_writer.writerow(attendance)
+        f.close()
         
-    with open("attendance.csv",'a') as f:
-        writer = csv.writer(f)
-        writer.writerow(attendance)
-        rows = open('attendance.csv').read().split("\n")
-        newrows = []
-        print(rows)
-        for row in rows:
-            if row not in newrows:
-                newrows.append(row)
-
-        print("newrows",newrows)
-        
-        ff = open("attendance_finale","w")
-        ff.write('\n'.join(newrows))
-        ff.close()
-
-
 write_attendance()

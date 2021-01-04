@@ -244,7 +244,7 @@ if __name__ == "__main__":
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)
 
-            mark_attendance(predictions)
+            #mark_attendance(predictions)
             
             if ord('q') == cv2.waitKey(10):
                 cap.release()
