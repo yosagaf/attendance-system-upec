@@ -75,3 +75,7 @@ class VideoThread(QThread, Ui_MainWindow):
     def stop_video(self):
         self.run_camera = False
         self.terminate()
+
+
+# analyse the emotion from the texte and play the correct answer
+# assia continue how 
