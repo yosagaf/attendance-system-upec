@@ -6,3 +6,7 @@ Software application will be installed in classroom at UPEC and should generate 
 
 # Important commands
 pyuic5 -x gui.ui -o gui.py
+
+
+# Idées :
+Adding an option to add photo and a button to launch the training.

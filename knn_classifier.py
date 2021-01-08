@@ -45,6 +45,7 @@ import numpy as np
 import csv
 from datetime import datetime
 import time
+import pandas as pd
 from face_recognition.face_recognition_cli import image_files_in_folder
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
@@ -127,6 +128,7 @@ def predict(X_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
     :return: a list of names and face locations for the recognized faces in the image: [(name, bounding box), ...].
         For faces of unrecognized persons, the name 'unknown' will be returned.
     """
+    
     if knn_clf is None and model_path is None:
         raise Exception("Must supply knn classifier either thourgh knn_clf or model_path")
 
@@ -151,7 +153,6 @@ def predict(X_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
     # Predict classes and remove classifications that aren't within the threshold
     return [(pred, loc) if rec else ("unknown", loc) for pred, loc, rec in zip(knn_clf.predict(faces_encodings), X_face_locations, are_matches)]
 
-
 def show_prediction_labels_on_image(frame, predictions):
     """
     Shows the face recognition results visually.
@@ -163,7 +164,11 @@ def show_prediction_labels_on_image(frame, predictions):
     pil_image = Image.fromarray(frame)
     draw = ImageDraw.Draw(pil_image)
 
-    for name, (top, right, bottom, left) in predictions:       
+    for name, (top, right, bottom, left) in predictions:   
+        top *= 2
+        right *= 2
+        bottom *= 2
+        left *= 2    
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -183,7 +188,14 @@ def show_prediction_labels_on_image(frame, predictions):
     opencvimage = np.array(pil_image)
     return opencvimage
 
+def mark_attendance(predictions):
+    df = pd.read_csv("attendance.csv")
+    col_names = ['Id', 'Name', 'Date', 'Time']
+    attendance = pd.DataFrame(columns=col_names)
+    ts = time.time()
+    date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
 
+'''
 def mark_attendance(predictions):
     #for name, (top, right, bottom, left) in predictions:
     #    name = name.encode("UTF-8")
@@ -208,15 +220,29 @@ def mark_attendance(predictions):
             dateString = now.strftime('%H:%M:%S')
             f.writelines(f'\n{name},{dateString}')    
 
-def display_information():
-    with open('attendance.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        data_to_label = []
-        for row in spamreader:
-            #print(', '.join(row))
-            data_to_label.append(', '.join(row))
-        
-    #return data_to_label[-1]
+'''
+from attendance import generate_date_time, generate_unique_id
+
+def save_detection(predictions):
+
+    names = []
+    ts = time.time()
+    date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
+    time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+    ID = str(generate_unique_id(433000, 433050))
+
+    if len(predictions) >= 1:    
+       
+        for i in range(0, len(predictions)):
+            current_name = str(predictions[i][0])
+            
+            #for i in range(len(current_name)):
+            names += [current_name]
+            if  current_name in names:
+                #pass
+                print("INFOS", ID, names, time_stamp, date)
+    
+    return names
 
 if __name__ == "__main__":
     
@@ -227,7 +253,6 @@ if __name__ == "__main__":
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up...')
-    display_information()
     cap = cv2.VideoCapture(0)
     
     while 1 > 0:
@@ -238,13 +263,13 @@ if __name__ == "__main__":
             img = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
             process_this_frame = process_this_frame + 1
             
-            if process_this_frame % 30 == 0:
-                predictions = predict(img, model_path="models/trained_knn_model.clf")
+            #if process_this_frame % 30 == 0:
+            predictions = predict(img, model_path="models/trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)
 
-            #mark_attendance(predictions)
-            
+            student_name = save_detection(predictions)
+
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()
