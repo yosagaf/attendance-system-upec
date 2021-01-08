@@ -6,10 +6,9 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
 import datetime
+import csv
 
 from read_video import VideoThread
-from knn_classifier import display_information
-from attendance import write_attendance
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     # This class will have access to all of the properties of QThread and Ui_MainWindow
@@ -70,8 +69,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.date_label.setText(date_text)
     
     def display_information(self):
-        info = write_attendance()
-        self.display_statistics_label.setText(str(info[1][0])+"  " + str(info[1][1])+"  "+ str(info[1][2]))
+        list_students = []
+
+        with open('attendance.csv') as ff:
+            reader = csv.reader(ff)
+            line = next(reader)
+            for line in reader:
+                list_students.append(line)
+                infos_student = line  
+            info = infos_student
+            
+        self.display_statistics_label.setText(str(info[0])+"  " + str(info[1])+"  "+ str(info[2]))
         
 if __name__ == "__main__":
     

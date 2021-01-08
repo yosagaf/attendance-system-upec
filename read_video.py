@@ -4,7 +4,7 @@ from PyQt5.QtGui import QImage
 import cv2
 import os
 from datetime import datetime
-from knn_classifier import predict, show_prediction_labels_on_image, mark_attendance
+from knn_classifier import predict, show_prediction_labels_on_image, write_attendance
 
 class VideoThread(QThread, Ui_MainWindow):
    
@@ -53,6 +53,7 @@ class VideoThread(QThread, Ui_MainWindow):
                     
                     if self.face_reco_flag:
                         predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
+                        write_attendance(predictions)
                         input_img = show_prediction_labels_on_image(input_img, predictions)
                         
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       

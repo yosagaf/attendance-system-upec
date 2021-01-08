@@ -26,11 +26,11 @@ def generate_date_time():
     return time_date
 
 # Save recoreded informations on the csv file
-def write_attendance():
-    i = 0
-    student_name = "Sagaf"
-    student_id = str(generate_unique_id(433000, 433050))
-    record_time = generate_date_time()[1]
+def write_attendance(infos):
+
+    student_name = infos[1]
+    student_id = infos[0]
+    record_time = infos[2]
     attendance = [student_id, student_name, record_time]
     list_students = []
     

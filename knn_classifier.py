@@ -165,10 +165,10 @@ def show_prediction_labels_on_image(frame, predictions):
     draw = ImageDraw.Draw(pil_image)
 
     for name, (top, right, bottom, left) in predictions:   
-        top *= 2
-        right *= 2
-        bottom *= 2
-        left *= 2    
+        #top *= 2
+        #right *= 2
+        #bottom *= 2
+        #left *= 2    
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -188,61 +188,52 @@ def show_prediction_labels_on_image(frame, predictions):
     opencvimage = np.array(pil_image)
     return opencvimage
 
-def mark_attendance(predictions):
-    df = pd.read_csv("attendance.csv")
-    col_names = ['Id', 'Name', 'Date', 'Time']
-    attendance = pd.DataFrame(columns=col_names)
-    ts = time.time()
-    date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-
-'''
-def mark_attendance(predictions):
-    #for name, (top, right, bottom, left) in predictions:
-    #    name = name.encode("UTF-8")
-    name = predictions[0][0]
-
-    with open("attendance.csv",'r+') as f:
-        myDataList = f.readline()
-        nameList = []
-        ID = 3425
-        # generate date based file name
-        ts = time.time()
-        date = datetime.fromtimestamp(ts).strftime('%d-%m-%Y')
-        time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-
-        attendance = [str(ID), "Sagaf", str(time_stamp)]
-        
-        for line in myDataList:
-            entry = line.split(',')
-            nameList.append(entry[0])
-        if name not in nameList:
-            now = datetime.now()
-            dateString = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name},{dateString}')    
-
-'''
 from attendance import generate_date_time, generate_unique_id
 
-def save_detection(predictions):
+# Save recoreded informations on the csv file
+def write_attendance(predictions):
 
-    names = []
+    name = ''
     ts = time.time()
     date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
     time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
     ID = str(generate_unique_id(433000, 433050))
 
     if len(predictions) >= 1:    
-       
-        for i in range(0, len(predictions)):
-            current_name = str(predictions[i][0])
-            
-            #for i in range(len(current_name)):
-            names += [current_name]
-            if  current_name in names:
-                #pass
-                print("INFOS", ID, names, time_stamp, date)
+        current_name = str(predictions[0][0])
+        name = current_name
+
+        attendance = [ID, name, time_stamp]
+        print("Attendance ", attendance)
     
-    return names
+    headers = [
+        'STUDENT_ID', 
+        'STUDENT_NAME', 
+        'DETECTION_TIME'
+    ]
+
+    file = "attendance.csv"
+    # Check if the csv file exist and remove it
+
+    exists = os.path.isfile(file)
+
+    #if exists:
+    #    os.remove(file)
+    #else :
+
+        #with open("attendance.csv", 'a+') as f:
+        #    csv_writer = csv.writer(f)
+        #    csv_writer.writerow(attendance)   
+        #f.close()
+    
+        #with open(file, 'w') as f:
+        #    pass
+
+    with open(file, 'w+') as ff:
+        csv_writer = csv.writer(ff)
+        csv_writer.writerow(headers)
+        csv_writer.writerow(attendance)
+    ff.close()
 
 if __name__ == "__main__":
     
@@ -252,8 +243,9 @@ if __name__ == "__main__":
     
     # process one frame in every 30 frames for speed
     process_this_frame = 29
-    print('Setting cameras up...')
+    print('Setting cameras up ...')
     cap = cv2.VideoCapture(0)
+    presences = []
     
     while 1 > 0:
         ret, frame = cap.read()
@@ -268,9 +260,10 @@ if __name__ == "__main__":
             frame = show_prediction_labels_on_image(frame, predictions)
             cv2.imshow('camera', frame)
 
-            student_name = save_detection(predictions)
+            infos = write_attendance(predictions)
 
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()
                 exit(0)
+        
