@@ -194,6 +194,7 @@ from attendance import generate_date_time, generate_unique_id
 def write_attendance(predictions):
 
     name = ''
+    attendance = []
     ts = time.time()
     date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
     time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
@@ -204,7 +205,6 @@ def write_attendance(predictions):
         name = current_name
 
         attendance = [ID, name, time_stamp]
-        print("Attendance ", attendance)
     
     headers = [
         'STUDENT_ID', 
