@@ -165,10 +165,10 @@ def show_prediction_labels_on_image(frame, predictions):
     draw = ImageDraw.Draw(pil_image)
 
     for name, (top, right, bottom, left) in predictions:   
-        #top *= 2
-        #right *= 2
-        #bottom *= 2
-        #left *= 2    
+        top *= 2
+        right *= 2
+        bottom *= 2
+        left *= 2    
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -190,50 +190,50 @@ def show_prediction_labels_on_image(frame, predictions):
 
 from attendance import generate_date_time, generate_unique_id
 
-# Save recoreded informations on the csv file
+# Save recoreded informations on the csv attendance_file
 def write_attendance(predictions):
 
     name = ''
+    attendance_file = "attendance.csv"
     attendance = []
+    
+    # setting up time and date
     ts = time.time()
     date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
     time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-    ID = str(generate_unique_id(433000, 433050))
-
-    if len(predictions) >= 1:    
-        current_name = str(predictions[0][0])
-        name = current_name
-
-        attendance = [ID, name, time_stamp]
     
+    # generate random ID
+    #TODO id can be set from the GUI by the user
+    ID = str(generate_unique_id(433000, 433050))
+    exists = os.path.isfile(attendance_file)
+
     headers = [
         'STUDENT_ID', 
         'STUDENT_NAME', 
         'DETECTION_TIME'
     ]
 
-    file = "attendance.csv"
-    # Check if the csv file exist and remove it
-
-    exists = os.path.isfile(file)
-
-    #if exists:
-    #    os.remove(file)
-    #else :
-
-        #with open("attendance.csv", 'a+') as f:
-        #    csv_writer = csv.writer(f)
-        #    csv_writer.writerow(attendance)   
-        #f.close()
+    #TODO deal with the case when you have more than two person in the field of view
+    # Iterate through the list of tuple and extracte the name for all of the tuple.
+    # Example : Prediction = [('Sagaf', (94, 189, 137, 146)), ('unknown', (129, 128, 191, 66))]
     
-        #with open(file, 'w') as f:
-        #    pass
+    if len(predictions) >= 1:   
+        for index, t in enumerate (predictions):
+            for i in range(len(t)):
+                if i%2 == 0:
+                    current_name = str(t[0])
+                    attendance = [ID, current_name, time_stamp]
+                    print("Attendance :", attendance)
 
-    with open(file, 'w+') as ff:
-        csv_writer = csv.writer(ff)
-        csv_writer.writerow(headers)
-        csv_writer.writerow(attendance)
-    ff.close()
+    # Check if the csv attendance_file exist and remove it
+    
+        if exists:
+            with open(attendance_file, 'r+') as ff:
+                csv_writer = csv.writer(ff)
+                csv_writer.writerow(headers)
+                csv_writer.writerow(attendance)
+            ff.close()
+            #print("Attendance :", attendance)
 
 if __name__ == "__main__":
     
