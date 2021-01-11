@@ -6,41 +6,38 @@ import os
 from datetime import datetime
 from knn_classifier import predict, show_prediction_labels_on_image, get_attendance
 
-class VideoThread(QThread, Ui_MainWindow):
+class VideoThreadRG(QThread, Ui_MainWindow):
    
     # define new signals with pyqtSignal 
     camera_frame = pyqtSignal(QImage)
-    open_video_flag = pyqtSignal(bool)
     face_reco_flag = False
-    
-    students_name = []
-    
+        
     def __init__(self):
         super().__init__()
 
     def run(self):
         
-        self.run_camera = True
+        self.run_camera_rg = True
         
         #self.video_path = 'videos/test.mp4'
-        #self.cap = cv2.VideoCapture(self.video_path)
-        self.cap = cv2.VideoCapture(0)  # read video from the webcam
-        fps = self.cap.get(cv2.CAP_PROP_FPS) # get the number of frames
+        #self.caprg = cv2.VideoCapture(self.video_path)
+        self.caprg = cv2.VideoCapture(0)  # read video from the webcam
+        fps = self.caprg.get(cv2.CAP_PROP_FPS) # get the number of frames
 
-        #get the size of each frame of the cap video stream  
-        size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),  
-                int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
+        #get the size of each frame of the caprg video stream  
+        size = (int(self.caprg.get(cv2.CAP_PROP_FRAME_WIDTH)),  
+                int(self.caprg.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
 
         h = size[1]
         w = size[0]        
         
         COUNT = 0
-        total_number_frame = self.cap.get(cv2.CAP_PROP_FRAME_COUNT) 
+        total_number_frame = self.caprg.get(cv2.CAP_PROP_FRAME_COUNT) 
         
-        if (self.cap.isOpened()):
-            while self.run_camera:                # while using the webcam
+        if (self.caprg.isOpened()):
+            while self.run_camera_rg:                # while using the webcam
             #while COUNT < total_number_frame:      # while using video stored in the pc
-                ret,  self.img_read = self.cap.read()
+                ret,  self.img_read = self.caprg.read()
                 if self.img_read.all:
                     h, w = self.img_read.shape[:2]
                                 
@@ -50,15 +47,10 @@ class VideoThread(QThread, Ui_MainWindow):
                     
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
-                    
-                    if self.face_reco_flag:
-                        predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
-                        #get_attendance(predictions)
-                        input_img = show_prediction_labels_on_image(input_img, predictions)
-                        
+                                            
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
 
-                    if self.run_camera: # send every time the frame to show
+                    if self.run_camera_rg: # send every time the frame to show
                         # emit the signal
                         self.camera_frame.emit(show_pic)
                     else:
@@ -67,16 +59,12 @@ class VideoThread(QThread, Ui_MainWindow):
                 else:
                     print('Video opened')
                 COUNT = COUNT + 1
-            self.cap.release()
+            self.caprg.release()
             self.quit()
         else:
             # if the camera is not open, the signal is emitted
-            self.open_video_flag.emit(self.cap.isOpened()) 
+            self.open_video_flag.emit(self.caprg.isOpened()) 
 
-    def stop_video(self):
-        self.run_camera = False
+    def stop_video_rg(self):
+        self.run_camera_rg = False
         self.terminate()
-
-
-# analyse the emotion from the texte and play the correct answer
-# assia continue how 

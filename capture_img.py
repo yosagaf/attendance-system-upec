@@ -8,7 +8,7 @@ from register import Ui_MainWindow1
 import datetime
 import csv
 
-from read_video import VideoThread
+from read_video_rg import VideoThreadRG
 
 class MainWindow1(QMainWindow, Ui_MainWindow1):
     # This class will have access to all of the properties of QThread and Ui_MainWindow
@@ -17,17 +17,17 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
         super(MainWindow1, self).__init__(parent)
         self.setup(self)
     
-        self.Video = VideoThread()
-        self.open_video()
+        self.Videor = VideoThreadRG()
+        self.open_video_rg()
         
     
-    def open_video(self):
-        if not self.Video.isRunning():
-            self.Video.start()
-            self.Video.camera_frame.connect(self.fresh_camera)
+    def open_video_rg(self):
+        if not self.Videor.isRunning():
+            self.Videor.start()
+            self.Videor.camera_frame.connect(self.fresh_camera)
         else:
-           self.Video.stop_video()
-           self.cap.release()
+           self.Videor.stop_video()
+           self.caprg.release()
 
     def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
@@ -35,6 +35,7 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
 
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.register_video_label.setPixmap(QPixmap.fromImage(show_pic))
+    
     '''
     # Following slots receive signal and execute routine.    
     @pyqtSlot()

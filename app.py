@@ -5,9 +5,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
+from register import Ui_MainWindow1 
 import datetime
 import csv
 
+from register import *
+from read_video_rg import VideoThreadRG
 from read_video import VideoThread
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -19,6 +22,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
         self.Video = VideoThread()
         self.open_video()
+        self.Videorg = VideoThreadRG()
         
         # Using QTimer to update the time in the GUI
         timer = QTimer(self, interval=1000, timeout=self.show_date_time)
@@ -32,13 +36,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
            self.Video.stop_video()
            self.cap.release()
+    
+    def open_video_rg(self):
+        if not self.Videorg.isRunning():
+            self.Videorg.start()
+            self.Videorg.camera_frame.connect(self.fresh_camera_rg)
+        else:
+            self.Videorg.stop_video_rg()
+            self.caprg.release()
 
+    def registration(self):
+        self.hide()
+        self.window=QtWidgets.QMainWindow()
+        self.ui1=Ui_MainWindow1()
+        self.ui1.setup(self.window)
+        self.window.show()
+        
+        #self.Video.stop_video()
+        #self.Video.cap.release()
+
+        #self.Videorg = VideoThreadRG()
+        #self.open_video_rg()
+        #self.Videorg.stop_video_rg()
+        
     def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
         self.display_video_label.setScaledContents(True)
 
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
+
+    def fresh_camera_rg(self, show_pic):   
+        # Scale the contents of the label to fill all available space
+        self.register_video_frame.setScaledContents(True)
+
+        # Convert the QImage object to QPixmap and how images in PyQt window
+        self.register_video_frame.setPixmap(QPixmap.fromImage(show_pic))
     
     # Following slots receive signal and execute routine.    
     @pyqtSlot()
@@ -57,6 +90,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_quit_pushbutton_clicked(self):
         self.close()
 
+    @pyqtSlot() # Decorate a Python method to create a Qt slot.
+    def on_registration_pushbutton_clicked(self):
+        self.registration()
+
+    
+    @pyqtSlot() # Decorate a Python method to create a Qt slot.
+    def on_finish_pushbutton_clicked(self):
+        #self.close()
+        print("Bonjour")
+
     # Set an display the time in the corresponding label
     @pyqtSlot()
     def show_date_time(self): 
@@ -69,17 +112,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.date_label.setText(date_text)
     
     def display_information(self):
-        list_students = []
+        infos_students = []
 
         with open('attendance.csv') as ff:
             reader = csv.reader(ff)
             line = next(reader)
             for line in reader:
-                list_students.append(line)
-                infos_student = line  
-            info = infos_student
+                infos_students.append(line)
+                infos_students = line  
+            info = infos_students
+            print(info)
             
-        self.display_statistics_label.setText(str(info[0])+"  " + str(info[1])+"  "+ str(info[2]))
+        #self.display_statistics_label.setText(str(info[0])+"  " + str(info[1])+"  "+ str(info[2]))
         
 if __name__ == "__main__":
     

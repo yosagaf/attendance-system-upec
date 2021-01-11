@@ -167,10 +167,10 @@ def show_prediction_labels_on_image(frame, predictions):
     draw = ImageDraw.Draw(pil_image)
 
     for name, (top, right, bottom, left) in predictions:   
-        top *= 2
-        right *= 2
-        bottom *= 2
-        left *= 2    
+        #top *= 2
+        #right *= 2
+        #bottom *= 2
+        #left *= 2    
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
