@@ -35,18 +35,20 @@ $ pip3 install opencv-contrib-python
 
 import cv2
 import math
-from sklearn import neighbors
 import os
 import os.path
 import pickle
-from PIL import Image, ImageDraw
-import face_recognition
 import numpy as np
 import csv
-from datetime import datetime
 import time
+import face_recognition
 import pandas as pd
+
+from datetime import datetime
+from sklearn import neighbors
+from PIL import Image, ImageDraw
 from face_recognition.face_recognition_cli import image_files_in_folder
+from attendance import generate_date_time, generate_unique_id
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
 
@@ -188,52 +190,29 @@ def show_prediction_labels_on_image(frame, predictions):
     opencvimage = np.array(pil_image)
     return opencvimage
 
-from attendance import generate_date_time, generate_unique_id
-
 # Save recoreded informations on the csv attendance_file
-def write_attendance(predictions):
+def get_attendance(predictions):
 
-    name = ''
-    attendance_file = "attendance.csv"
-    attendance = []
-    
-    # setting up time and date
+    # setting up time and date to be used 
     ts = time.time()
     date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
     time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
     
-    # generate random ID
+    # generate random students identifier
     #TODO id can be set from the GUI by the user
-    ID = str(generate_unique_id(433000, 433050))
-    exists = os.path.isfile(attendance_file)
-
-    headers = [
-        'STUDENT_ID', 
-        'STUDENT_NAME', 
-        'DETECTION_TIME'
-    ]
+    ID = str(generate_unique_id(433000, 433900))
 
     #TODO deal with the case when you have more than two person in the field of view
     # Iterate through the list of tuple and extracte the name for all of the tuple.
     # Example : Prediction = [('Sagaf', (94, 189, 137, 146)), ('unknown', (129, 128, 191, 66))]
     
     if len(predictions) >= 1:   
-        for index, t in enumerate (predictions):
-            for i in range(len(t)):
+        for index, pred_classe in enumerate (predictions):
+            for i in range(len(pred_classe)):
                 if i%2 == 0:
-                    current_name = str(t[0])
-                    attendance = [ID, current_name, time_stamp]
-                    print("Attendance :", attendance)
-
-    # Check if the csv attendance_file exist and remove it
-    
-        if exists:
-            with open(attendance_file, 'r+') as ff:
-                csv_writer = csv.writer(ff)
-                csv_writer.writerow(headers)
-                csv_writer.writerow(attendance)
-            ff.close()
-            #print("Attendance :", attendance)
+                    current_name = str(pred_classe[0])
+                    print("current_name :", current_name)
+                    return [ID, current_name, time_stamp]
 
 if __name__ == "__main__":
     
@@ -246,24 +225,62 @@ if __name__ == "__main__":
     print('Setting cameras up ...')
     cap = cv2.VideoCapture(0)
     presences = []
+    attendance_file = "attendance.csv"
+    headers = [
+        'STUDENT_ID', 
+        'STUDENT_NAME', 
+        'DETECTION_TIME'
+    ]
     
     while 1 > 0:
         ret, frame = cap.read()
         if ret:
             # Different resizing options can be chosen based on desired program runtime.
             # Image resizing for more stable streaming
+            
             img = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
             process_this_frame = process_this_frame + 1
             
-            #if process_this_frame % 30 == 0:
-            predictions = predict(img, model_path="models/trained_knn_model.clf")
+            if process_this_frame % 30 == 0:
+                predictions = predict(img, model_path="models/trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
-            cv2.imshow('camera', frame)
+            
+            if len(predictions) >= 1:
+                infos = get_attendance(predictions)
 
-            infos = write_attendance(predictions)
+                print("INFOS", infos)
+
+            cv2.imshow('Camera', frame)
 
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()
                 exit(0)
+
+    '''
+    presences.append(infos)
+    print("Presence :", presences)
+    for i in range (len(presences)):
+        pass
+    '''
+
+    '''          
+    print("Bonjour")
+    exists = os.path.isfile(attendance_file)
+    with open(attendance_file, 'a+') as ff:
+        csv_writer = csv.writer(ff)
+        csv_writer.writerow(headers)
+        csv_writer.writerow(presences)
+    ff.close()
+    '''
+
+    '''
         
+    with open(attendance_file, 'r') as f:
+        csv_reader = csv.reader(f)
+        for row in csv_reader:
+            #print("Row ", row)
+            #if current_name not in row :
+            pass
+    ''' 
+

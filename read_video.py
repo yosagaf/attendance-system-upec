@@ -4,7 +4,7 @@ from PyQt5.QtGui import QImage
 import cv2
 import os
 from datetime import datetime
-from knn_classifier import predict, show_prediction_labels_on_image, write_attendance
+from knn_classifier import predict, show_prediction_labels_on_image, get_attendance
 
 class VideoThread(QThread, Ui_MainWindow):
    
