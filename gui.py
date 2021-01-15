@@ -107,7 +107,7 @@ class Ui_MainWindow(object):
         self.description_text_date.setObjectName("description_text_date")
         self.verticalLayout.addWidget(self.description_text_date)
         self.logo_label = QtWidgets.QLabel(self.centralWidget)
-        self.logo_label.setGeometry(QtCore.QRect(710, 20, 241, 101))
+        self.logo_label.setGeometry(QtCore.QRect(720, 30, 241, 101))
         self.logo_label.setFrameShadow(QtWidgets.QFrame.Plain)
         self.logo_label.setText("")
         self.logo_label.setPixmap(QtGui.QPixmap("images/logo.png"))

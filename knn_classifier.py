@@ -216,10 +216,11 @@ def get_attendance(predictions):
 
 if __name__ == "__main__":
     
-    #print("Training KNN classifier...")
-    #classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=2)
-    #print("Training complete!")
+    print("Training KNN classifier...")
+    classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=2)
+    print("Training complete!")
     
+    '''
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up ...')
@@ -256,7 +257,7 @@ if __name__ == "__main__":
                 cap.release()
                 cv2.destroyAllWindows()
                 exit(0)
-
+    '''
     '''
     presences.append(infos)
     print("Presence :", presences)

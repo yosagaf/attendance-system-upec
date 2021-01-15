@@ -37,20 +37,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
            self.Video.stop_video()
            self.cap.release()
     
-    def open_video_rg(self):
-        if not self.Videorg.isRunning():
-            self.Videorg.start()
-            self.Videorg.camera_frame.connect(self.fresh_camera_rg)
-        else:
-            self.Videorg.stop_video_rg()
-            self.caprg.release()
-
     def registration(self):
         self.hide()
         self.window=QtWidgets.QMainWindow()
         self.ui1=Ui_MainWindow1()
         self.ui1.setup(self.window)
         self.window.show()
+        self.cap.release()
         
         #self.Video.stop_video()
         #self.Video.cap.release()
@@ -69,7 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def fresh_camera_rg(self, show_pic):   
         # Scale the contents of the label to fill all available space
         self.register_video_frame.setScaledContents(True)
-
+        
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.register_video_frame.setPixmap(QPixmap.fromImage(show_pic))
     
@@ -88,7 +81,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_quit_pushbutton_clicked(self):
-        self.close()
+        #self.close()
+        #self.close_event()
+        reply = QMessageBox.question(self, 'Quit', 'Are you sure you want to quit the application ?',
+        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.close()
+        else:
+            pass
 
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_registration_pushbutton_clicked(self):
