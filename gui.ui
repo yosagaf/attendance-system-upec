@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>980</width>
-    <height>709</height>
+    <height>791</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>260</y>
+      <y>180</y>
       <width>671</width>
       <height>431</height>
      </rect>
@@ -47,9 +47,9 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>60</y>
+      <y>20</y>
       <width>181</width>
-      <height>161</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -67,7 +67,7 @@
        <x>10</x>
        <y>30</y>
        <width>160</width>
-       <height>128</height>
+       <height>91</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -85,19 +85,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="stop_pushbutton">
-        <property name="font">
-         <font>
-          <family>Adobe Jenson Pro Lt Disp</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>STOP</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="quit_pushbutton">
         <property name="font">
          <font>
@@ -111,7 +98,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="registration_pushbutton">
+       <widget class="QPushButton" name="stop_pushbutton">
         <property name="font">
          <font>
           <family>Adobe Jenson Pro Lt Disp</family>
@@ -119,7 +106,7 @@
          </font>
         </property>
         <property name="text">
-         <string>REGISTRATION</string>
+         <string>STOP</string>
         </property>
        </widget>
       </item>
@@ -130,7 +117,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>160</y>
       <width>241</width>
       <height>451</height>
      </rect>
@@ -159,7 +146,7 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>160</y>
+      <y>80</y>
       <width>221</width>
       <height>81</height>
      </rect>
@@ -241,10 +228,10 @@
    <widget class="QLabel" name="logo_label">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>400</x>
       <y>30</y>
-      <width>241</width>
-      <height>101</height>
+      <width>231</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="frameShadow">
@@ -259,6 +246,84 @@
     <property name="scaledContents">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>620</y>
+      <width>941</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>STUDENTS REGISTRATION</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>30</y>
+       <width>241</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Age</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>First name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Last name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Student ID</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_2"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit_4"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>120</y>
+       <width>661</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
