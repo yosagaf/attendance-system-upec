@@ -190,13 +190,13 @@
       </font>
      </property>
      <property name="gridStyle">
-      <enum>Qt::DashDotLine</enum>
+      <enum>Qt::NoPen</enum>
      </property>
      <property name="rowCount">
       <number>25</number>
      </property>
      <property name="columnCount">
-      <number>3</number>
+      <number>6</number>
      </property>
      <attribute name="horizontalHeaderVisible">
       <bool>true</bool>
@@ -247,10 +247,49 @@
      <row/>
      <row/>
      <row/>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>H:M</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="textAlignment">
+       <set>AlignLeading|AlignVCenter</set>
+      </property>
+     </column>
      <column/>
      <column/>
      <column/>
-     <item row="0" column="0">
+     <item row="0" column="3">
       <property name="text">
        <string/>
       </property>
