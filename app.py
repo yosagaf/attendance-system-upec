@@ -45,13 +45,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.window.show()
         self.cap.release()
         
-        #self.Video.stop_video()
-        #self.Video.cap.release()
-
-        #self.Videorg = VideoThreadRG()
-        #self.open_video_rg()
-        #self.Videorg.stop_video_rg()
-        
     def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
         self.display_video_label.setScaledContents(True)
@@ -71,7 +64,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_start_pushbutton_clicked(self):
         # When the start button is pressed, face recognition start (bounding box)
         self.Video.face_reco_flag = True
-        self.display_information()
+        self.load_data()
     
     # Following slots receive signal and execute routine.    
     @pyqtSlot()
@@ -89,11 +82,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.close()
         else:
             pass
-
+    """
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_registration_pushbutton_clicked(self):
         self.registration()
-
+    """
     
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_finish_pushbutton_clicked(self):
@@ -110,20 +103,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         date = QDate.currentDate()
         date_text = date.toString("MM/dd/yyyy")
         self.date_label.setText(date_text)
-    
-    def display_information(self):
-        infos_students = []
 
+    def load_data(self):
+        infos_students = []
         with open('attendance.csv') as ff:
             reader = csv.reader(ff)
             line = next(reader)
             for line in reader:
-                infos_students.append(line)
-                infos_students = line  
-            info = infos_students
-            print(info)
+                infos_students.append(line) 
+        print("Infos students :", infos_students)
+        for row_number, row_data in enumerate(infos_students):
+            for column_number, data in enumerate( row_data):
+                self.table_widget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
             
-        #self.display_statistics_label.setText(str(info[0])+"  " + str(info[1])+"  "+ str(info[2]))
+            
+            
         
 if __name__ == "__main__":
     

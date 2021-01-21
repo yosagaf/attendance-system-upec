@@ -131,7 +131,7 @@
      <rect>
       <x>20</x>
       <y>240</y>
-      <width>241</width>
+      <width>251</width>
       <height>451</height>
      </rect>
     </property>
@@ -141,17 +141,14 @@
     <property name="alignment">
      <set>Qt::AlignHCenter|Qt::AlignTop</set>
     </property>
-    <widget class="QLabel" name="display_statistics_label">
+    <widget class="QTableWidget" name="table_widget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>221</width>
-       <height>161</height>
+       <y>30</y>
+       <width>231</width>
+       <height>411</height>
       </rect>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </widget>
