@@ -171,6 +171,7 @@ def show_prediction_labels_on_image(frame, predictions):
         #right *= 2
         #bottom *= 2
         #left *= 2    
+        
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
@@ -211,16 +212,33 @@ def get_attendance(predictions):
             for i in range(len(pred_classe)):
                 if i%2 == 0:
                     current_name = str(pred_classe[0])
-                    print("current_name :", current_name)
                     return [ID, current_name, time_stamp]
 
+def mark_attendance(attendance):
+    name = attendance[1]
+    with open("attendance.csv",'r+') as f:
+        next(f)
+        my_data_list = f.readline()
+        reader = csv.reader(f)
+
+        name_list = []
+        for line in my_data_list:
+            entry = my_data_list.split(',')
+            #print("entry ", entry)
+            print("my_data_list = ", my_data_list)
+            print("Type of mydatalist = ", type(my_data_list))
+            name_list.append(entry[1])
+            print("name list", name_list)
+        if name not in name_list:
+            f.writelines(f'\n{attendance[0]},{attendance[1]},{attendance[2]}')
+        
 if __name__ == "__main__":
     
-    print("Training KNN classifier...")
-    classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
-    print("Training complete!")
+    #print("Training KNN classifier...")
+    #classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
+    #print("Training complete!")
+
     
-    '''
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up ...')
@@ -247,41 +265,16 @@ if __name__ == "__main__":
             frame = show_prediction_labels_on_image(frame, predictions)
             
             if len(predictions) >= 1:
-                infos = get_attendance(predictions)
-
-                print("INFOS", infos)
-
+                attendance_infos = get_attendance(predictions)
+                print("INFOS", attendance_infos)
+            
+            
             cv2.imshow('Camera', frame)
 
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()
                 exit(0)
-    '''
-    '''
-    presences.append(infos)
-    print("Presence :", presences)
-    for i in range (len(presences)):
-        pass
-    '''
 
-    '''          
-    print("Bonjour")
-    exists = os.path.isfile(attendance_file)
-    with open(attendance_file, 'a+') as ff:
-        csv_writer = csv.writer(ff)
-        csv_writer.writerow(headers)
-        csv_writer.writerow(presences)
-    ff.close()
-    '''
 
-    '''
-        
-    with open(attendance_file, 'r') as f:
-        csv_reader = csv.reader(f)
-        for row in csv_reader:
-            #print("Row ", row)
-            #if current_name not in row :
-            pass
-    ''' 
-
+#mark_attendance(attendance_infos)

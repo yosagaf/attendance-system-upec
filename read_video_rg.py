@@ -48,7 +48,9 @@ class VideoThreadRG(QThread, Ui_MainWindow):
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
                                             
-                    show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
+                    show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)
+
+                    #get_attendance(predictions):       
 
                     if self.run_camera_rg: # send every time the frame to show
                         # emit the signal

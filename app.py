@@ -104,6 +104,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         date_text = date.toString("MM/dd/yyyy")
         self.date_label.setText(date_text)
 
+    # function used to load informations from csv file
     def load_data(self):
         infos_students = []
         with open('attendance.csv') as ff:
@@ -111,7 +112,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             line = next(reader)
             for line in reader:
                 infos_students.append(line) 
-        print("Infos students :", infos_students)
+        
         for row_number, row_data in enumerate(infos_students):
             for column_number, data in enumerate( row_data):
                 self.table_widget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
