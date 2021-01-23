@@ -53,10 +53,9 @@ class VideoThread(QThread, Ui_MainWindow):
                     
                     if self.face_reco_flag:
                         predictions = predict(input_img, model_path = "models/trained_knn_model.clf")
-                        records_info = get_attendance(predictions)
-                        print("Records infos :", records_info)
-                        
+                                                                    
                         if len(predictions) >= 1:
+                            records_info = get_attendance(predictions)
                             mark_attendance(records_info)
                         input_img = show_prediction_labels_on_image(input_img, predictions)
                         

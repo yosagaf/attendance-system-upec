@@ -215,23 +215,24 @@ def get_attendance(predictions):
                     return [ID, current_name, time_stamp]
 
 def mark_attendance(attendance):
-    name = attendance[1]
-    with open("attendance.csv",'r+') as f:
-        next(f)
-        my_data_list = f.readline()
-        reader = csv.reader(f)
+    if attendance is not None:
+        name = attendance[1]
 
-        name_list = []
-        for line in my_data_list:
-            entry = my_data_list.split(',')
-            #print("entry ", entry)
-            print("my_data_list = ", my_data_list)
-            print("Type of mydatalist = ", type(my_data_list))
-            name_list.append(entry[1])
-            print("name list", name_list)
-        if name not in name_list:
-            f.writelines(f'\n{attendance[0]},{attendance[1]},{attendance[2]}')
-        
+        with open("attendance.csv",'r+') as f:
+            next(f)
+            my_data_list = f.readline()
+            
+            name_list = []
+            for line in my_data_list:
+                print("Line", line)
+                entry = my_data_list.split(',')
+                print("Entry :", entry)
+                print("my_data_list = ", my_data_list)
+                name_list.append(entry[1])
+                
+            if name not in name_list:
+                f.writelines(f'\n{attendance[0]},{attendance[1]},{attendance[2]}')
+            
 if __name__ == "__main__":
     
     #print("Training KNN classifier...")
