@@ -217,18 +217,19 @@ def get_attendance(predictions):
 def mark_attendance(attendance):
     if attendance is not None:
         name = attendance[1]
-
         with open("attendance.csv",'r+') as f:
             next(f)
             my_data_list = f.readline()
             
             name_list = []
-            for line in my_data_list:
-                print("Line", line)
+            entry = []
+            
+            for l in my_data_list:
                 entry = my_data_list.split(',')
-                print("Entry :", entry)
-                print("my_data_list = ", my_data_list)
+
+            if len(entry) >= 3:    
                 name_list.append(entry[1])
+        
                 
             if name not in name_list:
                 f.writelines(f'\n{attendance[0]},{attendance[1]},{attendance[2]}')
