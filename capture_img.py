@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 from register import Ui_MainWindow1
 import datetime
 import csv
+import os
+import cv2
 
 from read_video_rg import VideoThreadRG
 
@@ -19,7 +21,36 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
     
         self.Videor = VideoThreadRG()
         self.open_video_rg()
+
+        self.register_pushbutton.clicked.connect(self.register_infos)
+    
+    
+    def register_infos(self):
         
+        last_name = self.last_name_lineEdit.text()
+        first_name = self.first_name_line_edit.text()
+        identifier = self.identifier_line_edit.text()
+        age = self.age_line_edit.text()
+
+        path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
+        name = last_name
+
+        full_path = path+name
+
+        # Create target directory if don't exist
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
+            print("Directory " , full_path ,  " Created ")
+        else:    
+            print("Directory " , full_path ,  " already exists")
+            
+        img = cv2.imread('images/Jack.jpg')
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        cv2.imwrite(full_path+'/Xavier.jpg', gray)
+
+        print("done")
+ 
+
     
     def open_video_rg(self):
         if not self.Videor.isRunning():

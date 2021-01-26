@@ -48,9 +48,6 @@ class Ui_MainWindow1(object):
         self.students_infos_groupbox.setTitle("")
         self.students_infos_groupbox.setAlignment(QtCore.Qt.AlignCenter)
         self.students_infos_groupbox.setObjectName("students_infos_groupbox")
-        self.save_push_button = QtWidgets.QPushButton(self.students_infos_groupbox)
-        self.save_push_button.setGeometry(QtCore.QRect(30, 360, 201, 25))
-        self.save_push_button.setObjectName("save_push_button")
         self.instructions_group_box = QtWidgets.QGroupBox(self.students_infos_groupbox)
         self.instructions_group_box.setGeometry(QtCore.QRect(10, 40, 241, 81))
         self.instructions_group_box.setObjectName("instructions_group_box")
@@ -100,13 +97,12 @@ class Ui_MainWindow1(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.register_pushbutton.setText(_translate("MainWindow", "REGISTER"))
         self.finish_pushbutton.setText(_translate("MainWindow", "FINISH"))
-        self.save_push_button.setText(_translate("MainWindow", "SUBMIT"))
         self.instructions_group_box.setTitle(_translate("MainWindow", "Instructions :"))
         self.instructions_text_browser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Please make sure you submit students informations before gathering images.</p></body></html>"))
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Please submit students informations befor the image data collections.</p></body></html>"))
         self.student_detauls_group_box_2.setTitle(_translate("MainWindow", "Students details"))
         self.last_name_label.setText(_translate("MainWindow", " Last name"))
         self.fisrt_name_label.setText(_translate("MainWindow", " First name"))
@@ -120,7 +116,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui1 = Ui_MainWindow1()
-    ui1.setup(MainWindow)
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

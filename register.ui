@@ -106,19 +106,6 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QPushButton" name="save_push_button">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>360</y>
-       <width>201</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>SUBMIT</string>
-     </property>
-    </widget>
     <widget class="QGroupBox" name="instructions_group_box">
      <property name="geometry">
       <rect>
