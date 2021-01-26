@@ -89,7 +89,7 @@ class Ui_MainWindow(object):
         self.table_widget.setFont(font)
         self.table_widget.setGridStyle(QtCore.Qt.NoPen)
         self.table_widget.setRowCount(25)
-        self.table_widget.setColumnCount(6)
+        self.table_widget.setColumnCount(3)
         self.table_widget.setObjectName("table_widget")
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)

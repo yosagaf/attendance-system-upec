@@ -25,10 +25,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.Videorg = VideoThreadRG()
         
         # Using QTimer to update the time in the GUI
-        timer = QTimer(self, interval=1000, timeout=self.show_date_time)
-        timer.start()
-        self.show_date_time()
-    
+        timer1 = QTimer(self, interval=1000, timeout=self.show_date_time)
+        timer2 = QTimer(self, interval=10, timeout=self.display_data)
+        
+        timer1.start()
+        timer2.start()
+        
     def open_video(self):
         if not self.Video.isRunning():
             self.Video.start()
@@ -62,7 +64,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Following slots receive signal and execute routine.    
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):
-        print("HHHHHH")
         # When the start button is pressed, face recognition start (bounding box)
         self.Video.face_reco_flag = True
         self.display_data()
@@ -87,9 +88,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_finish_pushbutton_clicked(self):
-        #self.close()
-        print("Bonjour")
-
+        self.close()
+        
     # Set an display the time in the corresponding label
     @pyqtSlot()
     def show_date_time(self): 
@@ -103,7 +103,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # function used to load informations from csv file
     def display_data(self):
-        print("Bonjour")
         infos_students = []
         with open('attendance.csv') as ff:
             reader = csv.reader(ff)
