@@ -202,10 +202,6 @@ def get_attendance(predictions):
     # generate random students identifier
     #TODO id can be set from the GUI by the user
     ID = str(generate_unique_id(433000, 433900))
-
-    #TODO deal with the case when you have more than two person in the field of view
-    # Iterate through the list of tuple and extracte the name for all of the tuple.
-    # Example : Prediction = [('Sagaf', (94, 189, 137, 146)), ('unknown', (129, 128, 191, 66))]
     
     if len(predictions) >= 1:   
         for index, pred_classe in enumerate (predictions):
@@ -240,10 +236,9 @@ def mark_attendance(attendance):
                 ligne_row = j.split(",")
                 name_list.append(ligne_row[1])
 
-            if name in name_list:
+            if name in name_list or name == 'unknown':
                 pass
             else:
-                print("name does n't existe")
                 f.writelines(f'\n{attendance[0]},{attendance[1]},{attendance[2]}')
   
 if __name__ == "__main__":
