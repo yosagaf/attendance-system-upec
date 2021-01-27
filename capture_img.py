@@ -6,10 +6,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from register import Ui_MainWindow1
 import datetime
+import time
 import csv
 import os
 import cv2
-
+from random import randrange
 from read_video_rg import VideoThreadRG
 
 class MainWindow1(QMainWindow, Ui_MainWindow1):
@@ -24,6 +25,14 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
         self.open_video_rg()
 
         self.register_pushbutton.clicked.connect(self.register_infos)
+        self.finish_pushbutton.clicked.connect(self.train_model)
+
+    def train_model(self):
+        for i in range(101): 
+            # slowing down the loop 
+            time.sleep(0.05) 
+            # setting value to progress bar 
+            self.progress_bar.setValue(i) 
 
     def register_infos(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
@@ -31,9 +40,6 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
         first_name = self.first_name_line_edit.text()
         identifier = self.identifier_line_edit.text()
         img = self.Videorg.image 
-        #print(self.Videorg.capture_flag)
-        print(self.Videorg.run_camera_rg)
-        
         full_path = path+last_name
 
         # Create target directory if don't exist
@@ -42,7 +48,7 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
             print("Directory " , full_path ,  " Created ")
         else:    
             print("Directory " , full_path ,  " already exists")       
-        cv2.imwrite(full_path+'/'+last_name+'.jpg', img)
+            cv2.imwrite(full_path+'/'+last_name+str(randrange(200))+'.jpg', img)
     
     def open_video_rg(self):
         if not self.Videorg.isRunning():
@@ -61,8 +67,9 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
     
     @pyqtSlot() # Decorate a Python method to create a Qt slot.
     def on_finish_pushbutton_clicked(self):
-        self.close()
-        
+        #self.close()
+        pass
+
 if __name__ == "__main__":
     
     import sys

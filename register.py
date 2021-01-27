@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow1(object):
     def setup(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(980, 709)
+        MainWindow.resize(980, 775)
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.register_video_frame = QtWidgets.QFrame(self.centralWidget)
@@ -81,6 +81,10 @@ class Ui_MainWindow1(object):
         self.identifier_line_edit = QtWidgets.QLineEdit(self.gridLayoutWidget)
         self.identifier_line_edit.setObjectName("identifier_line_edit")
         self.si_grid_layout.addWidget(self.identifier_line_edit, 4, 1, 1, 1)
+        self.progress_bar = QtWidgets.QProgressBar(self.centralWidget)
+        self.progress_bar.setGeometry(QtCore.QRect(220, 690, 601, 23))
+        self.progress_bar.setProperty("value", 24)
+        self.progress_bar.setObjectName("progress_bar")
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
