@@ -6,11 +6,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
 from register import Ui_MainWindow1 
+from random import randrange
 import datetime
 import time
 import csv
 import os
 import cv2
+from knn_classifier import train
 
 from register import *
 from read_video_rg import VideoThreadRG
@@ -26,7 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Video = VideoThread()
         self.open_video()
         
-        # Using QTimer to update the time in the GUI
+        # Using QTimer to update the time in the GUI and students informations
         timer1 = QTimer(self, interval=1000, timeout=self.show_date_time)
         timer2 = QTimer(self, interval=10, timeout=self.display_data)
         
@@ -35,7 +37,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.take_image_button.clicked.connect(self.register_infos)
         self.registration_button.clicked.connect(self.train_model)
-        
+        self.save_image_button.clicked.connect(self.save_students_informations)
+    
+    # fire up thread for opening video
     def open_video(self):
         if not self.Video.isRunning():
             self.Video.start()
@@ -48,16 +52,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
         self.display_video_label.setScaledContents(True)
-
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
     
     def train_model(self):
+        pass
+        '''
+        print("Training KNN classifier...")
+        classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
+        print("Training complete!")
+
+        
         for i in range(101): 
             # slowing down the loop 
             time.sleep(0.05) 
             # setting value to progress bar 
             self.progress_bar.setValue(i) 
+        '''
+
+    
+    def save_students_informations(self):
+        pass
 
     def register_infos(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
