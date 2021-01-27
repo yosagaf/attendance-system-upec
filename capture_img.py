@@ -25,20 +25,16 @@ class MainWindow1(QMainWindow, Ui_MainWindow1):
 
         self.register_pushbutton.clicked.connect(self.register_infos)
 
-        
-
-
     def register_infos(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
         last_name = self.last_name_lineEdit.text()
         first_name = self.first_name_line_edit.text()
         identifier = self.identifier_line_edit.text()
         img = self.Videorg.image 
-        print(img)
+        #print(self.Videorg.capture_flag)
+        print(self.Videorg.run_camera_rg)
         
-        print(last_name)
         full_path = path+last_name
-        print(full_path)
 
         # Create target directory if don't exist
         if not os.path.exists(full_path):

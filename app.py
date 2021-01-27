@@ -22,7 +22,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
         self.Video = VideoThread()
         self.open_video()
-        #self.Videorg = VideoThreadRG()
         
         # Using QTimer to update the time in the GUI
         timer1 = QTimer(self, interval=1000, timeout=self.show_date_time)
