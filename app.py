@@ -7,7 +7,10 @@ from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
 from register import Ui_MainWindow1 
 import datetime
+import time
 import csv
+import os
+import cv2
 
 from register import *
 from read_video_rg import VideoThreadRG
@@ -29,6 +32,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         timer1.start()
         timer2.start()
+
+        self.take_image_button.clicked.connect(self.register_infos)
+        self.registration_button.clicked.connect(self.train_model)
         
     def open_video(self):
         if not self.Video.isRunning():
@@ -38,13 +44,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
            self.Video.stop_video()
            self.cap.release()
     
-    def registration(self):
-        self.hide()
-        self.window=QtWidgets.QMainWindow()
-        self.ui1=Ui_MainWindow1()
-        self.ui1.setup(self.window)
-        self.window.show()
-        self.cap.release()
         
     def fresh_camera(self, show_pic):   
         # Scale the contents of the label to fill all available space
@@ -52,14 +51,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
-
-    def fresh_camera_rg(self, show_pic):   
-        # Scale the contents of the label to fill all available space
-        self.register_video_frame.setScaledContents(True)
-        
-        # Convert the QImage object to QPixmap and how images in PyQt window
-        self.register_video_frame.setPixmap(QPixmap.fromImage(show_pic))
     
+    def train_model(self):
+        for i in range(101): 
+            # slowing down the loop 
+            time.sleep(0.05) 
+            # setting value to progress bar 
+            self.progress_bar.setValue(i) 
+
+    def register_infos(self):
+        path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
+        last_name = self.last_name_line_edit.text()
+        first_name = self.first_name_line_edit.text()
+        identifier = self.student_id_line_edit.text()
+        img = self.Video.image 
+        full_path = path+last_name
+
+        print("Last name  = ",last_name)
+        print("First name = ", first_name)
+        print("ID         = ", identifier)
+
+        # Create target directory if don't exist
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
+            print("Directory " , full_path ,  " Created ")
+        else:    
+            print("Directory " , full_path ,  " already exists")       
+            cv2.imwrite(full_path+'/'+last_name+str(randrange(200))+'.jpg', img)
+
     # Following slots receive signal and execute routine.    
     @pyqtSlot()
     def on_start_pushbutton_clicked(self):

@@ -32,8 +32,7 @@ class VideoThreadRG(QThread, Ui_MainWindow):
                 int(self.caprg.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
 
         h = size[1]
-        w = size[0]   
-        #self.image = np.zeros((h,w,3), np.uint8)     
+        w = size[0]     
         
         COUNT = 0
         total_number_frame = self.caprg.get(cv2.CAP_PROP_FRAME_COUNT) 

@@ -21,6 +21,7 @@ class VideoThread(QThread, Ui_MainWindow):
     def run(self):
         
         self.run_camera = True
+        self.image = 0
         
         #self.video_path = 'videos/test.mp4'
         #self.cap = cv2.VideoCapture(self.video_path)
@@ -49,6 +50,7 @@ class VideoThread(QThread, Ui_MainWindow):
                 if ret !=None :
                     
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
+                    self.image = input_img
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
                     
                     if self.face_reco_flag:
