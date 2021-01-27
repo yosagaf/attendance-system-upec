@@ -3,6 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QImage
 import cv2
 import os
+import numpy as np
 from datetime import datetime
 from knn_classifier import predict, show_prediction_labels_on_image, get_attendance
 
@@ -11,7 +12,10 @@ class VideoThreadRG(QThread, Ui_MainWindow):
     # define new signals with pyqtSignal 
     camera_frame = pyqtSignal(QImage)
     face_reco_flag = False
-        
+    capture_flag = False
+
+    image = 0
+
     def __init__(self):
         super().__init__()
 
@@ -29,7 +33,8 @@ class VideoThreadRG(QThread, Ui_MainWindow):
                 int(self.caprg.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
 
         h = size[1]
-        w = size[0]        
+        w = size[0]   
+        image = np.zeros((h,w,3), np.uint8)     
         
         COUNT = 0
         total_number_frame = self.caprg.get(cv2.CAP_PROP_FRAME_COUNT) 
@@ -46,11 +51,11 @@ class VideoThreadRG(QThread, Ui_MainWindow):
                 if ret !=None :
                     
                     input_img = cv2.resize(self.img_read, (0, 0), fx=0.5, fy=0.5)
+                    image = input_img
+
                     input_img = cv2.cvtColor(self.img_read, cv2.COLOR_BGR2RGB)
                                             
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)
-
-                    #get_attendance(predictions):       
 
                     if self.run_camera_rg: # send every time the frame to show
                         # emit the signal

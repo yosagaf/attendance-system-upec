@@ -81,12 +81,6 @@ class Ui_MainWindow1(object):
         self.identifier_line_edit = QtWidgets.QLineEdit(self.gridLayoutWidget)
         self.identifier_line_edit.setObjectName("identifier_line_edit")
         self.si_grid_layout.addWidget(self.identifier_line_edit, 4, 1, 1, 1)
-        self.age_label = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.age_label.setObjectName("age_label")
-        self.si_grid_layout.addWidget(self.age_label, 5, 0, 1, 1)
-        self.age_line_edit = QtWidgets.QLineEdit(self.gridLayoutWidget)
-        self.age_line_edit.setObjectName("age_line_edit")
-        self.si_grid_layout.addWidget(self.age_line_edit, 5, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -107,7 +101,6 @@ class Ui_MainWindow1(object):
         self.last_name_label.setText(_translate("MainWindow", " Last name"))
         self.fisrt_name_label.setText(_translate("MainWindow", " First name"))
         self.identifier_label.setText(_translate("MainWindow", " Identifier"))
-        self.age_label.setText(_translate("MainWindow", " Age"))
 
 
 
