@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
 from register import Ui_MainWindow1 
 from random import randrange
+from threading import Thread
 import datetime
 import time
 import csv
@@ -55,23 +56,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Convert the QImage object to QPixmap and how images in PyQt window
         self.display_video_label.setPixmap(QPixmap.fromImage(show_pic))
     
-    def train_model(self):
-        pass
-        '''
+    def launch_train(self):
         print("Training KNN classifier...")
         classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
         print("Training complete!")
-        
+
+    def launch_progress_bar(self):
         for i in range(101): 
             # slowing down the loop 
             time.sleep(0.05) 
             # setting value to progress bar 
             self.progress_bar.setValue(i) 
-        '''
 
-    
-    def save_students_informations(self):
+    def train_model(self):
         pass
+        #Thread(target = self.launch_train).start()
+        #Thread(target = self.launch_progress_bar).start()      
+        
+    def save_students_informations(self):
+        path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
+        last_name = self.last_name_line_edit.text()
+        first_name = self.first_name_line_edit.text()
+        identifier = self.student_id_line_edit.text()
+        img = self.Video.image 
+        full_path = path+last_name
+
+        # Create target directory if don't exist
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
+            print("Directory " , full_path ,  " Created ")
+        else:    
+            print("Directory " , full_path ,  " already exists")       
+            #cv2.imwrite(full_path+'/'+last_name+str(randrange(200))+'.jpg', img)
+
 
     def register_infos(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
