@@ -27,19 +27,12 @@ class VideoThread(QThread, Ui_MainWindow):
         #self.cap = cv2.VideoCapture(self.video_path)
         self.cap = cv2.VideoCapture(0)  # read video from the webcam
         fps = self.cap.get(cv2.CAP_PROP_FPS) # get the number of frames
-
-        #get the size of each frame of the cap video stream  
-        size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),  
-                int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))  
-
-        h = size[1]
-        w = size[0]        
-        
+           
         COUNT = 0
         total_number_frame = self.cap.get(cv2.CAP_PROP_FRAME_COUNT) 
         
         if (self.cap.isOpened()):
-            while self.run_camera:                # while using the webcam
+            while self.run_camera:                  # while using the webcam
             #while COUNT < total_number_frame:      # while using video stored in the pc
                 ret,  self.img_read = self.cap.read()
                 if self.img_read.all:
@@ -64,11 +57,9 @@ class VideoThread(QThread, Ui_MainWindow):
                     show_pic = QImage(input_img.data,  w, h, QImage.Format_RGB888)       
 
                     if self.run_camera: # send every time the frame to show
-                        # emit the signal
-                        self.camera_frame.emit(show_pic)
+                        self.camera_frame.emit(show_pic) # emit the signal
                     else:
                         break
-                    #time.sleep(0.005)
                 else:
                     print('Video opened')
                 COUNT = COUNT + 1
@@ -81,7 +72,3 @@ class VideoThread(QThread, Ui_MainWindow):
     def stop_video(self):
         self.run_camera = False
         self.terminate()
-
-
-# analyse the emotion from the texte and play the correct answer
-# assia continue how 

@@ -5,19 +5,16 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui import Ui_MainWindow
-from register import Ui_MainWindow1 
 from random import randrange
 from threading import Thread
+from knn_classifier import train
+from read_video import VideoThread
+
 import datetime
 import time
 import csv
 import os
 import cv2
-from knn_classifier import train
-
-from register import *
-from read_video_rg import VideoThreadRG
-from read_video import VideoThread
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     # This class will have access to all of the properties of QThread and Ui_MainWindow
@@ -64,14 +61,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def launch_progress_bar(self):
         for i in range(101): 
             # slowing down the loop 
-            time.sleep(0.05) 
+            time.sleep(0.1) 
             # setting value to progress bar 
             self.progress_bar.setValue(i) 
 
     def train_model(self):
-        pass
+        #pass
         #Thread(target = self.launch_train).start()
-        #Thread(target = self.launch_progress_bar).start()      
+        #Thread(target = self.launch_progress_bar).start()  
+        self.launch_progress_bar()    
         
     def save_students_informations(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
@@ -97,10 +95,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         identifier = self.student_id_line_edit.text()
         img = self.Video.image 
         full_path = path+last_name
-
-        print("Last name  = ",last_name)
-        print("First name = ", first_name)
-        print("ID         = ", identifier)
 
         # Create target directory if don't exist
         if not os.path.exists(full_path):

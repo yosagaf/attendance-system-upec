@@ -247,7 +247,6 @@ if __name__ == "__main__":
     #classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
     #print("Training complete!")
 
-    
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up ...')

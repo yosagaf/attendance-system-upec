@@ -257,9 +257,6 @@ class Ui_MainWindow(object):
         self.take_image_button.setText(_translate("MainWindow", "TAKE IMAGE"))
         self.registration_button.setText(_translate("MainWindow", "REGISTRATION"))
 
-
-
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
