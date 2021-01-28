@@ -61,7 +61,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Training KNN classifier...")
         classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
         print("Training complete!")
-
         
         for i in range(101): 
             # slowing down the loop 
@@ -144,10 +143,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 infos_students.append(line) 
         
         for row_number, row_data in enumerate(infos_students):
-            for column_number, data in enumerate( row_data):
+            for column_number, data in enumerate(row_data):
                 self.table_widget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
             
-            
+        #print("Number of student present : ", len(infos_students))
+        number_student_text = " Nb. students present : "+ str(len(infos_students))
+        self.label_number_student.setText(number_student_text)
             
         
 if __name__ == "__main__":

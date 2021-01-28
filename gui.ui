@@ -157,7 +157,7 @@
        <x>10</x>
        <y>30</y>
        <width>221</width>
-       <height>561</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -196,7 +196,7 @@
       <number>25</number>
      </property>
      <property name="columnCount">
-      <number>6</number>
+      <number>3</number>
      </property>
      <attribute name="horizontalHeaderVisible">
       <bool>true</bool>
@@ -286,19 +286,25 @@
        <set>AlignLeading|AlignVCenter</set>
       </property>
      </column>
-     <column/>
-     <column/>
-     <column/>
-     <item row="0" column="3">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-     </item>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>560</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_number_student">
+        <property name="text">
+         <string> Student presents : </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
