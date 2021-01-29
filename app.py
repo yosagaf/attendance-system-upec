@@ -32,12 +32,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         timer1.start()
         timer2.start()
-
+        
+        # Connect corresponding button with corresponding function 
         self.take_image_button.clicked.connect(self.register_infos)
         self.registration_button.clicked.connect(self.train_model)
         self.save_image_button.clicked.connect(self.save_students_informations)
     
-    # fire up thread for opening video
+    # Fire up thread for opening video
     def open_video(self):
         if not self.Video.isRunning():
             self.Video.start()
@@ -70,7 +71,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Thread(target = self.launch_train).start()
         #Thread(target = self.launch_progress_bar).start()  
         self.launch_progress_bar()    
-        
+    
+
     def save_students_informations(self):
         path = "/home/xps/devs/attendance-system-upec/knn_examples/train/"
         last_name = self.last_name_line_edit.text()
@@ -144,7 +146,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         date_text = date.toString("MM/dd/yyyy")
         self.date_label.setText(date_text)
 
-    # function used to load informations from csv file
+    # Function used to load informations from csv file
     def display_data(self):
         infos_students = []
         with open('attendance.csv') as ff:
@@ -157,7 +159,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for column_number, data in enumerate(row_data):
                 self.table_widget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
             
-        #print("Number of student present : ", len(infos_students))
         number_student_text = " Nb. students present : "+ str(len(infos_students))
         self.label_number_student.setText(number_student_text)
             
