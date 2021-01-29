@@ -31,6 +31,8 @@ $ pip3 install scikit-learn
 $ pip3 install numpy
 $ pip3 install opencv-contrib-python
 
+The original file is : https://github.com/ageitgey/face_recognition/blob/master/examples/face_recognition_knn.py
+
 """
 
 import cv2
@@ -167,10 +169,16 @@ def show_prediction_labels_on_image(frame, predictions):
     draw = ImageDraw.Draw(pil_image)
 
     for name, (top, right, bottom, left) in predictions:   
-        #top *= 2
-        #right *= 2
-        #bottom *= 2
-        #left *= 2    
+
+        # Decomment following lines if you are using this script alone as t
+        # the bouding box will be in the correct place
+
+        '''
+        top *= 2
+        right *= 2
+        bottom *= 2
+        left *= 2    
+        '''
         
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
@@ -194,13 +202,12 @@ def show_prediction_labels_on_image(frame, predictions):
 # Save recoreded informations on the csv attendance_file
 def get_attendance(predictions):
 
-    # setting up time and date to be used 
+    # setting up time and date to be used for time detection
     ts = time.time()
     date = datetime.fromtimestamp(ts).strftime('%m-%d-%Y')
     time_stamp = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
     
-    # generate random students identifier
-    #TODO id can be set from the GUI by the user
+    # generate random students identifier or take from input user on the graphical interface
     ID = str(generate_unique_id(433000, 433900))
     
     if len(predictions) >= 1:   
@@ -218,6 +225,7 @@ def mark_attendance(attendance):
     with open("attendance.csv", 'r+') as f:
         if attendance: 
             next(f) # skip the header, the first line
+            
             tmp_data = [] 
             name_list = []
             ligne_data = []
@@ -243,10 +251,12 @@ def mark_attendance(attendance):
   
 if __name__ == "__main__":
     
-    #print("Training KNN classifier...")
-    #classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
-    #print("Training complete!")
-
+    '''
+    print("Training KNN classifier...")
+    classifier = train("knn_examples/train", model_save_path="models/trained_knn_model.clf", n_neighbors=2)
+    print("Training complete!")
+    '''
+    
     # process one frame in every 30 frames for speed
     process_this_frame = 29
     print('Setting cameras up ...')
